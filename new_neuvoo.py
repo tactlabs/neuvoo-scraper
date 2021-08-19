@@ -25,22 +25,27 @@ def startpy():
     driver.get("https://neuvoo.co.in/jobs/?k=machine+learning&l=&p=1&date=&field=&company=&source_type=&radius=&from=&test=&iam=&is_category=no")
 
     # print all details inside the card
-    details = driver.find_elements_by_class_name("card__job-c")
-
-    data = [] 
-    for detail in details:
-        # print(detail.text)
-        # print()
-        data.append(detail.text)
-    # print(data)
-
+    card_titile = driver.find_elements_by_class_name("card__job-link")
+    location   = driver.find_elements_by_class_name("card__job-info")
+    job_details = driver.find_elements_by_class_name("card__job-snippet")
+    # print(card_titile)
+    # print(job_info)
+    # print(job_details)
     
-    with open('mydata.json', 'w') as f:
-       json.dump(data, f)
-
-    
-    
-
+    convertToJson(card_titile,location,job_details)
     driver.quit()
+
+quotesArr = []
+def convertToJson(card_titile,location,job_details):
+    quoteObject = {
+        "Title": card_titile,
+        "location": location,
+        "details": job_details
+    }
+
+    quotesArr.append(quoteObject)
+    # print(quotesArr)
+    with open('neuvoo.json', 'w') as outfile:
+            json.dump(quotesArr, outfile)
 if __name__ == '__main__':
     startpy()
